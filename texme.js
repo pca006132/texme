@@ -75,6 +75,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       'https://cdn.jsdelivr.net/npm/marked@4.0.12/marked.min.js'
     options.MathJaxURL =
       'https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js'
+    options.highlightjsURL =
+      'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js'
   }
 
   /**
@@ -445,6 +447,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       setWindowOptions()
 
       loadjs(options.markdownURL, function () {
+        loadjs(options.highlightjsURL, function () {
+          window.marked.setOptions({
+            highlight: function(code, lang) {
+              return hljs.highlight(code, {language: lang, ignoreIllegals: true}).value
+            }
+          });
+        })
         markdown = window.marked.parse
       })
 
